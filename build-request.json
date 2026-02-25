@@ -1,0 +1,105 @@
+{
+  "kind": "build_request",
+  "title": "Category delete protection, smart category icons, unified logo, and password criteria hint",
+  "projectName": "Task Queue",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-21",
+      "text": "In the Sidebar component, user-created (custom) categories must show a delete (×) button that removes them from localStorage and the sidebar. Default/built-in categories (Work, Personal, Education, Household, Shopping, Health, Other) must NOT show any delete button and cannot be deleted. Only categories the current user created should be deletable.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "user wants to delete the category only if user is created remaining will be fixed"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Default categories (Work, Personal, Education, Household, Shopping, Health, Other) have no delete button and cannot be removed",
+        "User-created custom categories display a visible delete (×) icon next to their name in the sidebar",
+        "Clicking the delete icon on a custom category removes it from localStorage and immediately removes it from the sidebar list",
+        "Deleting a custom category does not affect tasks already assigned to that category",
+        "The currently active category is deselected (reverts to All Tasks) if the active category is deleted"
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "text": "When a user types a new category name in the Add Category input in the Sidebar, auto-suggest a relevant emoji icon based on the category name keyword. Maintain a keyword-to-emoji mapping (e.g., 'gym' → 🏋️, 'political' → 🏛️, 'music' → 🎵, 'travel' → ✈️, 'food' → 🍔, 'sport' → ⚽, 'finance' → 💰, 'family' → 👨‍👩‍👧, 'health' → 💊, 'art' → 🎨, 'tech' → 💻, 'nature' → 🌿, and similar common terms). When a match is found, display the suggested emoji visually next to the input field as a preview and use it as the icon when the category is saved. If no keyword match is found, fall back to a default 📁 icon.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "When user says to add political then related icon should be displayed or should suggestions to the categories.",
+          "if user add category gym then gym related icon should display"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Typing 'gym' (case-insensitive) in the add-category input shows a 🏋️ emoji preview",
+        "Typing 'political' or 'politics' shows a 🏛️ emoji preview",
+        "The suggested emoji is displayed as a visual hint next to or inside the input while typing",
+        "When the category is saved, the matched emoji is stored alongside the category name and rendered as its icon in the sidebar",
+        "If the keyword has no match, the category is saved with a default 📁 icon",
+        "Matching is case-insensitive and checks if the category name contains the keyword"
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "text": "Display the same Task Queue logo image on the Login page as is shown in the Dashboard header. Read the logo file path currently used in DashboardHeader.tsx and use that exact same <img> tag (same src, same file from frontend/public/assets/generated/) in the Login page header/branding area. Remove any different, placeholder, or randomly generated logo from the Login page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "When comes to Logo in Login Page then same Logo it should be displayed in dashboard page not to display the random Logo"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Login page displays the same logo image file as the Dashboard header",
+        "The logo src path on the Login page matches the src path in DashboardHeader.tsx exactly",
+        "No different or placeholder logo appears on the Login page",
+        "The logo is rendered alongside the 'Task Queue' wordmark text on the Login page"
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "text": "In the Signup page, add a password criteria hint directly below the Password input field. Show the text 'Minimum 6 characters' in small helper text. Apply real-time validation feedback: while the user is typing in the password field, if the current value is fewer than 6 characters show the hint in red/error color; once 6 or more characters are entered show it in green/success color (or hide it). Also enforce this rule in the signup validation logic in frontend/src/utils/auth.ts — if the password is fewer than 6 characters, block signup and show a custom popup with the message 'Password must be at least 6 characters.'",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "In Signup page Password field there is no password criteria minimum 6 characters alter should be displayed right"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A 'Minimum 6 characters' hint is visible below the Password field on the Signup page",
+        "The hint text turns red when the password input has fewer than 6 characters",
+        "The hint text turns green (or is hidden/checked) when the password input has 6 or more characters",
+        "Submitting the signup form with a password shorter than 6 characters is blocked",
+        "A custom popup with the message 'Password must be at least 6 characters.' is shown when the password is too short",
+        "The real-time feedback updates as the user types without requiring form submission"
+      ]
+    }
+  ],
+  "constraints": [
+    "Default categories (Work, Personal, Education, Household, Shopping, Health, Other) must never be deletable under any circumstance",
+    "The logo used on the Login page must be the exact same file already used in DashboardHeader.tsx — do not generate a new logo image",
+    "Do not modify any files listed in frontend.immutablePaths"
+  ],
+  "nonGoals": [
+    "Changing the visual design or color scheme of the app",
+    "Adding new task fields or modifying task storage structure",
+    "Implementing real OAuth or social login",
+    "Generating a new logo image"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

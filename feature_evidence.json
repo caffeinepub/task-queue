@@ -1,0 +1,79 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-in-the-sidebar-component-user-created-custom-categories-must-show-a-delete-button-that-removes-them-from-localstorage-and-the-sidebar-default-built-in-categories-work-personal-education-household-shopping-health-other-must-not-show-any-delete-button-and-cannot-be-deleted-only-categories-the-current-user-created-should-be-deletable",
+      "featureTitle": "In the Sidebar component, user-created (custom) categories must show a delete (×) button that removes them from localStorage and the sidebar. Default/built-in categories (Work, Personal, Education, Household, Shopping, Health, Other) must NOT show any delete button and cannot be deleted. Only categories the current user created should be deletable.",
+      "files": [
+        "frontend/src/components/Sidebar.tsx",
+        "frontend/src/utils/storage.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-21"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-when-a-user-types-a-new-category-name-in-the-add-category-input-in-the-sidebar-auto-suggest-a-relevant-emoji-icon-based-on-the-category-name-keyword-maintain-a-keyword-to-emoji-mapping-e-g-gym-political-music-travel-food-sport-finance-family-health-art-tech-nature-and-similar-common-terms-when-a-match-is-found-display-the-suggested-emoji-visually-next-to-the-input-field-as-a-preview-and-use-it-as-the-icon-when-the-category-is-saved-if-no-keyword-match-is-found-fall-back-to-a-default-icon",
+      "featureTitle": "When a user types a new category name in the Add Category input in the Sidebar, auto-suggest a relevant emoji icon based on the category name keyword. Maintain a keyword-to-emoji mapping (e.g., 'gym' → 🏋️, 'political' → 🏛️, 'music' → 🎵, 'travel' → ✈️, 'food' → 🍔, 'sport' → ⚽, 'finance' → 💰, 'family' → 👨‍👩‍👧, 'health' → 💊, 'art' → 🎨, 'tech' → 💻, 'nature' → 🌿, and similar common terms). When a match is found, display the suggested emoji visually next to the input field as a preview and use it as the icon when the category is saved. If no keyword match is found, fall back to a default 📁 icon.",
+      "files": [
+        "frontend/src/components/Sidebar.tsx",
+        "frontend/src/utils/storage.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-22"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-display-the-same-task-queue-logo-image-on-the-login-page-as-is-shown-in-the-dashboard-header-read-the-logo-file-path-currently-used-in-dashboardheader-tsx-and-use-that-exact-same-img-tag-same-src-same-file-from-frontend-public-assets-generated-in-the-login-page-header-branding-area-remove-any-different-placeholder-or-randomly-generated-logo-from-the-login-page",
+      "featureTitle": "Display the same Task Queue logo image on the Login page as is shown in the Dashboard header. Read the logo file path currently used in DashboardHeader.tsx and use that exact same <img> tag (same src, same file from frontend/public/assets/generated/) in the Login page header/branding area. Remove any different, placeholder, or randomly generated logo from the Login page.",
+      "files": [
+        "frontend/src/pages/Login.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-23"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-the-signup-page-add-a-password-criteria-hint-directly-below-the-password-input-field-show-the-text-minimum-6-characters-in-small-helper-text-apply-real-time-validation-feedback-while-the-user-is-typing-in-the-password-field-if-the-current-value-is-fewer-than-6-characters-show-the-hint-in-red-error-color-once-6-or-more-characters-are-entered-show-it-in-green-success-color-or-hide-it-also-enforce-this-rule-in-the-signup-validation-logic-in-frontend-src-utils-auth-ts-if-the-password-is-fewer-than-6-characters-block-signup-and-show-a-custom-popup-with-the-message-password-must-be-at-least-6-characters",
+      "featureTitle": "In the Signup page, add a password criteria hint directly below the Password input field. Show the text 'Minimum 6 characters' in small helper text. Apply real-time validation feedback: while the user is typing in the password field, if the current value is fewer than 6 characters show the hint in red/error color; once 6 or more characters are entered show it in green/success color (or hide it). Also enforce this rule in the signup validation logic in frontend/src/utils/auth.ts — if the password is fewer than 6 characters, block signup and show a custom popup with the message 'Password must be at least 6 characters.'",
+      "files": [
+        "frontend/src/pages/Signup.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-24"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

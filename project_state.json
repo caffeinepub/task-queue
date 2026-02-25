@@ -1,0 +1,326 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 15,
+  "summary": "Building 'Task Queue' — a full-featured Todo Web Application as a React + TypeScript app (platform uses React). Features: localStorage-based auth (login/signup with validation), dashboard with sidebar navigation, task management with categories and priorities, real-time search with text highlighting, smooth CSS animations, Gmail-style avatars, Toastify notifications for success events, custom styled popups for errors, Deep Navy + Sky Blue design with Nunito/DM Sans font.",
+  "architectural_notes": [
+    "Tech stack: React + TypeScript (platform constraint, not vanilla HTML/JS as requested)",
+    "Data persistence: localStorage only — users array, session, per-user tasks, categories",
+    "Auth: email OR phone uniqueness enforced on signup; session cleared on logout",
+    "Notifications: Toastify JS (CDN) for success; custom styled popups (no browser alert()) for errors",
+    "Design: Deep Navy (#1A1F36) primary, Sky Blue (#4A90D9) accent, Nunito or DM Sans font, glassmorphism accents",
+    "Browser tab title must always show: 'Task Queue — Your Productivity Hub'",
+    "Email verification is simulated: 6-digit code shown in modal on signup (no real email sent); login blocked until verified; status stored in localStorage"
+  ],
+  "known_issues": [
+    "Deployment error encountered — fix in progress"
+  ],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-implement-localstorage-based-authentication-system-store-registered-users-as-an-array-of-objects-name-email-phone-password-in-localstorage-store-the-currently-logged-in-user-session-separately-each-user-s-tasks-are-keyed-to-their-email-so-users-only-see-their-own-tasks",
+      "title": "Implement localStorage-based authentication system. Store registered users as an array of objects (name, email, phone, password) in localStorage. Store the currently logged-in user session separately. Each user's tasks are keyed to their email so users only see their own tasks.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-login-page-default-home-view-with-fields-for-email-or-phone-number-and-password-include-a-login-button-and-a-link-to-the-signup-page-validate-show-a-custom-styled-popup-not-browser-alert-please-fill-in-all-fields-if-any-field-is-empty-account-not-found-please-sign-up-if-the-email-phone-doesn-t-exist-incorrect-password-please-try-again-if-credentials-are-wrong-on-success-show-a-toastify-notification-welcome-back-user-s-name-and-navigate-to-the-dashboard",
+      "title": "Build a Login page (default/home view) with fields for Email or Phone Number and Password. Include a Login button and a link to the Signup page. Validate: show a custom styled popup (not browser alert) 'Please fill in all fields' if any field is empty; 'Account not found. Please sign up.' if the email/phone doesn't exist; 'Incorrect password. Please try again.' if credentials are wrong. On success, show a Toastify notification 'Welcome back, [User's Name]! 🎉' and navigate to the Dashboard.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-signup-page-with-fields-full-name-email-phone-number-password-confirm-password-include-a-sign-up-button-and-a-link-to-login-validate-all-fields-required-custom-popup-if-empty-valid-email-and-phone-format-passwords-must-match-popup-if-not-block-signup-if-email-or-phone-already-exists-in-localstorage-with-popup-an-account-with-this-email-phone-already-exists-please-log-in-on-success-show-toastify-account-created-successfully-welcome-to-task-queue-navigate-to-login-and-simulate-a-welcome-email-by-printing-to-browser-console-console-log-with-email-address-subject-welcome-to-task-queue-and-greeting-with-the-user-s-name",
+      "title": "Build a Signup page with fields: Full Name, Email, Phone Number, Password, Confirm Password. Include a Sign Up button and a link to Login. Validate: all fields required (custom popup if empty); valid email and phone format; passwords must match (popup if not); block signup if email OR phone already exists in localStorage with popup 'An account with this email/phone already exists. Please log in.' On success: show Toastify 'Account created successfully! Welcome to Task Queue 🚀', navigate to Login, and simulate a welcome email by printing to browser console: console.log with email address, subject 'Welcome to Task Queue!', and greeting with the user's name.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-dashboard-top-header-bar-with-app-logo-task-queue-title-on-the-left-a-real-time-search-bar-in-the-center-that-filters-task-titles-as-the-user-types-and-highlights-matching-text-in-results-on-the-right-a-gmail-style-circular-avatar-showing-the-first-letter-of-the-user-s-name-in-uppercase-with-a-dynamic-background-color-based-on-the-letter-e-g-p-purple-a-amber-r-red-s-teal-a-logout-button-icon-text-that-clears-the-session-redirects-to-login-and-shows-toastify-you-have-been-logged-out",
+      "title": "Build the Dashboard top header bar with: App logo + 'Task Queue' title on the left; a real-time search bar in the center that filters task titles as the user types and highlights matching text in results; on the right a Gmail-style circular avatar showing the first letter of the user's name in uppercase with a dynamic background color based on the letter (e.g., P→Purple, A→Amber, R→Red, S→Teal); a Logout button (icon + text) that clears the session, redirects to Login, and shows Toastify 'You have been logged out.'",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-sidebar-with-a-my-day-section-at-the-top-a-categories-list-including-default-categories-work-personal-education-household-shopping-health-other-plus-any-user-created-custom-categories-stored-in-localstorage-an-add-category-button-that-allows-the-user-to-create-a-new-custom-category-the-currently-active-selected-category-is-visually-highlighted-clicking-a-category-filters-the-task-list-to-show-only-tasks-in-that-category",
+      "title": "Build a sidebar with: a 'My Day' section at the top; a categories list including default categories (Work, Personal, Education, Household, Shopping, Health, Other) plus any user-created custom categories stored in localStorage; an 'Add Category' button that allows the user to create a new custom category; the currently active/selected category is visually highlighted. Clicking a category filters the task list to show only tasks in that category.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-task-cards-that-display-task-title-description-short-category-tag-colored-pill-badge-status-badge-completed-pending-not-yet-started-due-date-priority-level-low-medium-high-with-color-indicator-an-edit-button-pencil-icon-that-opens-the-edit-modal-pre-filled-with-task-data-and-a-delete-button-bin-icon-that-shows-a-custom-confirmation-popup-before-deleting-cards-have-a-hover-lift-effect-translatey-box-shadow-toastify-notifications-shown-on-task-add-edit-and-delete-success",
+      "title": "Build task cards that display: Task Title, Description (short), Category tag (colored pill/badge), Status badge (Completed / Pending / Not Yet Started), Due Date, Priority level (Low / Medium / High) with color indicator, an Edit button (pencil icon) that opens the Edit modal pre-filled with task data, and a Delete button (bin icon) that shows a custom confirmation popup before deleting. Cards have a hover lift effect (translateY + box-shadow). Toastify notifications shown on task add, edit, and delete success.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-an-add-edit-task-modal-with-fields-task-title-text-description-textarea-category-dropdown-with-all-available-categories-status-dropdown-completed-pending-not-yet-started-due-date-date-picker-priority-low-medium-high-include-save-and-cancel-buttons-the-modal-has-a-fade-scale-up-entrance-animation-and-fades-out-on-close-when-editing-the-modal-is-pre-filled-with-the-selected-task-s-current-data",
+      "title": "Build an Add/Edit Task modal with fields: Task Title (text), Description (textarea), Category (dropdown with all available categories), Status (dropdown: Completed / Pending / Not Yet Started), Due Date (date picker), Priority (Low / Medium / High). Include Save and Cancel buttons. The modal has a fade + scale-up entrance animation and fades out on close. When editing, the modal is pre-filled with the selected task's current data.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-all-required-animations-throughout-the-app-staggered-fade-in-for-task-cards-on-page-tab-load-animation-delay-per-card-index-sidebar-slide-in-from-left-on-dashboard-load-modal-fade-scale-up-on-open-fade-out-on-close-hover-lift-on-task-cards-translatey-4px-elevated-box-shadow-button-scale-ripple-micro-interaction-on-click-login-and-signup-form-slide-up-entrance-animation-smooth-content-transition-when-switching-tabs",
+      "title": "Apply all required animations throughout the app: staggered fade-in for task cards on page/tab load (animation-delay per card index); sidebar slide-in from left on Dashboard load; modal fade + scale-up on open, fade-out on close; hover lift on task cards (translateY(-4px) + elevated box-shadow); button scale/ripple micro-interaction on click; Login and Signup form slide-up entrance animation; smooth content transition when switching tabs.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-the-visual-design-system-throughout-the-app-primary-color-deep-navy-1a1f36-accent-sky-blue-4a90d9-white-background-with-soft-gray-card-surfaces-subtle-glassmorphism-accents-on-key-ui-elements-soft-drop-shadows-on-cards-and-modals-use-dm-sans-from-google-fonts-loaded-via-cdn-link-in-the-html-head-as-the-primary-typeface-use-font-awesome-icons-cdn-for-pencil-bin-search-and-other-ui-icons-the-browser-tab-title-must-always-read-task-queue-your-productivity-hub-the-layout-must-be-fully-responsive-and-work-on-both-desktop-and-mobile",
+      "title": "Apply the visual design system throughout the app: primary color Deep Navy (#1A1F36), accent Sky Blue (#4A90D9), white background with soft gray card surfaces, subtle glassmorphism accents on key UI elements, soft drop shadows on cards and modals. Use 'DM Sans' from Google Fonts (loaded via CDN link in the HTML head) as the primary typeface. Use Font Awesome icons (CDN) for pencil, bin, search, and other UI icons. The browser tab title must always read 'Task Queue — Your Productivity Hub'. The layout must be fully responsive and work on both desktop and mobile.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-use-toastify-js-loaded-via-cdn-for-all-success-notifications-signup-success-login-success-logout-task-added-task-edited-task-deleted-use-custom-styled-in-page-popup-components-not-browser-alert-for-all-error-and-validation-messages-wrong-password-account-not-found-account-already-exists-empty-fields-password-mismatch-delete-confirmation",
+      "title": "Use Toastify JS (loaded via CDN) for all success notifications: signup success, login success, logout, task added, task edited, task deleted. Use custom styled in-page popup components (not browser alert()) for all error and validation messages: wrong password, account not found, account already exists, empty fields, password mismatch, delete confirmation.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-app-logo-in-the-dashboard-header-with-a-newly-generated-professional-original-logo-image-for-task-queue-the-logo-must-feel-proprietary-and-brand-authentic-not-generic-or-stock-like-render-the-generated-logo-image-from-frontend-public-assets-generated-as-an-img-tag-in-the-dashboardheader-component-replacing-any-existing-placeholder-or-text-based-logo-mark-keep-the-task-queue-wordmark-text-beside-it",
+      "title": "Replace the current app logo in the Dashboard header with a newly generated professional, original logo image for 'Task Queue'. The logo must feel proprietary and brand-authentic — not generic or stock-like. Render the generated logo image from frontend/public/assets/generated/ as an <img> tag in the DashboardHeader component, replacing any existing placeholder or text-based logo mark. Keep the 'Task Queue' wordmark text beside it.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-simulated-social-login-buttons-for-google-facebook-and-twitter-on-the-login-page-place-the-three-buttons-below-the-existing-email-password-form-separated-by-an-or-continue-with-divider-each-button-must-show-the-respective-brand-icon-via-font-awesome-or-inline-svg-and-label-continue-with-google-continue-with-facebook-continue-with-twitter-clicking-any-social-button-should-show-a-custom-styled-in-page-popup-using-the-existing-custompopup-component-with-the-message-social-login-is-not-supported-yet-please-use-email-password-to-log-in-no-actual-oauth-flow-is-implemented",
+      "title": "Add simulated social login buttons for Google, Facebook, and Twitter on the Login page. Place the three buttons below the existing email/password form, separated by an 'or continue with' divider. Each button must show the respective brand icon (via Font Awesome or inline SVG) and label ('Continue with Google', 'Continue with Facebook', 'Continue with Twitter'). Clicking any social button should show a custom styled in-page popup (using the existing CustomPopup component) with the message 'Social login is not supported yet. Please use email/password to log in.' No actual OAuth flow is implemented.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-task-queue-logo-image-rendered-in-dashboardheader-tsx-with-a-newly-generated-clean-professional-minimal-logo-the-new-logo-must-be-a-refined-brand-authentic-mark-a-modern-checkmark-or-productivity-symbol-inside-a-clean-rounded-square-icon-using-the-deep-navy-1a1f36-and-sky-blue-4a90d9-palette-replacing-the-current-logo-file-render-it-as-an-img-tag-sourced-from-frontend-public-assets-generated-alongside-the-task-queue-wordmark-the-user-does-not-want-to-revisit-the-logo-again-after-this-change",
+      "title": "Replace the Task Queue logo image rendered in DashboardHeader.tsx with a newly generated clean, professional, minimal logo. The new logo must be a refined, brand-authentic mark — a modern checkmark or productivity symbol inside a clean rounded-square icon, using the Deep Navy (#1A1F36) and Sky Blue (#4A90D9) palette — replacing the current logo file. Render it as an <img> tag sourced from frontend/public/assets/generated/ alongside the 'Task Queue' wordmark. The user does not want to revisit the logo again after this change.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-diagnose-and-resolve-the-deployment-error-currently-blocking-the-task-queue-application-from-deploying-successfully-inspect-build-output-typescript-compilation-errors-missing-imports-misconfigured-paths-or-any-other-root-cause-preventing-a-clean-build-and-deployment-ensure-the-app-compiles-and-deploys-without-errors",
+      "title": "Diagnose and resolve the deployment error currently blocking the Task Queue application from deploying successfully. Inspect build output, TypeScript compilation errors, missing imports, misconfigured paths, or any other root cause preventing a clean build and deployment. Ensure the app compiles and deploys without errors.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-successful-signup-form-submission-generate-a-random-6-digit-verification-code-and-store-it-in-localstorage-alongside-the-new-user-record-with-a-verified-false-flag-immediately-display-a-verification-modal-using-the-existing-custompopup-or-a-dedicated-modal-component-that-shows-the-message-a-verification-code-has-been-sent-to-user-s-email-please-enter-it-below-with-a-6-digit-code-input-field-a-verify-button-and-the-generated-code-visibly-shown-on-screen-e-g-your-code-is-xxxxxx-to-simulate-email-delivery-do-not-navigate-to-login-until-the-code-is-verified",
+      "title": "On successful signup form submission, generate a random 6-digit verification code and store it in localStorage alongside the new user record, with a 'verified: false' flag. Immediately display a verification modal (using the existing CustomPopup or a dedicated modal component) that shows the message 'A verification code has been sent to [user's email]. Please enter it below.' with a 6-digit code input field, a 'Verify' button, and the generated code visibly shown on screen (e.g., 'Your code is: XXXXXX' to simulate email delivery). Do NOT navigate to Login until the code is verified.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-login-logic-in-frontend-src-utils-auth-ts-and-frontend-src-pages-login-tsx-so-that-if-a-user-attempts-to-log-in-and-their-account-has-verified-false-in-localstorage-login-is-blocked-and-a-custom-styled-popup-using-the-existing-custompopup-component-is-shown-with-the-message-account-not-verified-please-verify-your-email-before-logging-in",
+      "title": "Update the login logic in frontend/src/utils/auth.ts and frontend/src/pages/Login.tsx so that if a user attempts to log in and their account has 'verified: false' in localStorage, login is blocked and a custom styled popup (using the existing CustomPopup component) is shown with the message: 'Account not verified. Please verify your email before logging in.'",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-user-interface-in-frontend-src-utils-storage-ts-to-include-verificationcode-string-and-verified-boolean-fields-ensure-all-storage-helper-functions-that-read-or-write-users-correctly-handle-these-new-fields-without-breaking-existing-functionality",
+      "title": "Update the User interface in frontend/src/utils/storage.ts to include 'verificationCode: string' and 'verified: boolean' fields. Ensure all storage helper functions that read or write users correctly handle these new fields without breaking existing functionality.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-sidebar-component-user-created-custom-categories-must-show-a-delete-button-that-removes-them-from-localstorage-and-the-sidebar-default-built-in-categories-work-personal-education-household-shopping-health-other-must-not-show-any-delete-button-and-cannot-be-deleted-only-categories-the-current-user-created-should-be-deletable",
+      "title": "In the Sidebar component, user-created (custom) categories must show a delete (×) button that removes them from localStorage and the sidebar. Default/built-in categories (Work, Personal, Education, Household, Shopping, Health, Other) must NOT show any delete button and cannot be deleted. Only categories the current user created should be deletable.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-a-user-types-a-new-category-name-in-the-add-category-input-in-the-sidebar-auto-suggest-a-relevant-emoji-icon-based-on-the-category-name-keyword-maintain-a-keyword-to-emoji-mapping-e-g-gym-political-music-travel-food-sport-finance-family-health-art-tech-nature-and-similar-common-terms-when-a-match-is-found-display-the-suggested-emoji-visually-next-to-the-input-field-as-a-preview-and-use-it-as-the-icon-when-the-category-is-saved-if-no-keyword-match-is-found-fall-back-to-a-default-icon",
+      "title": "When a user types a new category name in the Add Category input in the Sidebar, auto-suggest a relevant emoji icon based on the category name keyword. Maintain a keyword-to-emoji mapping (e.g., 'gym' → 🏋️, 'political' → 🏛️, 'music' → 🎵, 'travel' → ✈️, 'food' → 🍔, 'sport' → ⚽, 'finance' → 💰, 'family' → 👨‍👩‍👧, 'health' → 💊, 'art' → 🎨, 'tech' → 💻, 'nature' → 🌿, and similar common terms). When a match is found, display the suggested emoji visually next to the input field as a preview and use it as the icon when the category is saved. If no keyword match is found, fall back to a default 📁 icon.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-the-same-task-queue-logo-image-on-the-login-page-as-is-shown-in-the-dashboard-header-read-the-logo-file-path-currently-used-in-dashboardheader-tsx-and-use-that-exact-same-img-tag-same-src-same-file-from-frontend-public-assets-generated-in-the-login-page-header-branding-area-remove-any-different-placeholder-or-randomly-generated-logo-from-the-login-page",
+      "title": "Display the same Task Queue logo image on the Login page as is shown in the Dashboard header. Read the logo file path currently used in DashboardHeader.tsx and use that exact same <img> tag (same src, same file from frontend/public/assets/generated/) in the Login page header/branding area. Remove any different, placeholder, or randomly generated logo from the Login page.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-signup-page-add-a-password-criteria-hint-directly-below-the-password-input-field-show-the-text-minimum-6-characters-in-small-helper-text-apply-real-time-validation-feedback-while-the-user-is-typing-in-the-password-field-if-the-current-value-is-fewer-than-6-characters-show-the-hint-in-red-error-color-once-6-or-more-characters-are-entered-show-it-in-green-success-color-or-hide-it-also-enforce-this-rule-in-the-signup-validation-logic-in-frontend-src-utils-auth-ts-if-the-password-is-fewer-than-6-characters-block-signup-and-show-a-custom-popup-with-the-message-password-must-be-at-least-6-characters",
+      "title": "In the Signup page, add a password criteria hint directly below the Password input field. Show the text 'Minimum 6 characters' in small helper text. Apply real-time validation feedback: while the user is typing in the password field, if the current value is fewer than 6 characters show the hint in red/error color; once 6 or more characters are entered show it in green/success color (or hide it). Also enforce this rule in the signup validation logic in frontend/src/utils/auth.ts — if the password is fewer than 6 characters, block signup and show a custom popup with the message 'Password must be at least 6 characters.'",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Login page with email/phone + password, validation popups, Toastify on success",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Signup page with full name, email, phone, password fields, duplicate check, console email simulation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Dashboard header with logo, real-time search bar, Gmail-style avatar, logout button",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Sidebar with My Day, default + custom categories, Add Category button, active highlight",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Task cards with title, description, category tag, status badge, due date, priority, edit/delete actions",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Add/Edit task modal with all fields, fade+scale animation, save/cancel",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Tab bar filtering by Completed / Pending / Not Yet Started combined with category filter",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Real-time search with text highlight and No tasks found message",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Smooth animations: staggered card fade-in, sidebar slide-in, modal fade+scale, hover lift, button effects, form slide-up, tab transitions",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "localStorage-based auth and per-user task storage; Toastify for successes, custom popups for errors",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Build the main content area with a tab bar offering three status filters: ✅ Completed, ⏳ Pending, 🔲 Not Yet Started. Tasks are filtered by the selected tab AND the selected sidebar category simultaneously. Display task cards for matching tasks. Include an 'Add New Task' button that opens the Add Task modal.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Add social login/signup options on Login and Signup pages: Google, Facebook, and Twitter (OAuth-style UI buttons, simulated flow since no backend)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Redesign the Task Queue logo to be clean and professional — replace existing logo with a refined, minimal design; user does not want to revisit this again",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Simulated email verification flow on signup: generate 6-digit code, show in modal, require user to enter code before account is activated, block login with error if not verified, store verification status in localStorage",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Add Google, Facebook, and Twitter brand icons to login page social buttons (Facebook and Twitter are simulated/unsupported, Google icon shown; clicking shows 'not supported' popup)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Audit the entire frontend codebase for TypeScript compilation errors, missing imports, incorrect module paths, unused variables flagged as errors, and any other issues that would prevent a clean build. Fix all identified errors so that the project compiles without warnings or errors.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-23",
+      "summary": "Ensure the deployed application correctly runs the full verified signup flow end-to-end: user submits signup form, a 6-digit verification code is generated and stored in localStorage with verified: false, the VerificationModal is displayed showing the code on screen, the user enters the code and clicks Verify, the account is marked verified: true in localStorage, and the user is navigated to the Login page. Login must be blocked with the 'Account not verified. Please verify your email before logging in.' popup for unverified accounts.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "User-created categories can be deleted; default/built-in categories are fixed and cannot be deleted",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "When adding a custom category, auto-suggest or display a relevant icon based on the category name (e.g., 'gym' shows gym icon, 'political' shows political icon)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-26",
+      "summary": "Use the same Task Queue logo on the Login page as is displayed in the Dashboard header — no random or different logo on login",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-27",
+      "summary": "Add password criteria hint on Signup page: show 'Minimum 6 characters' requirement below the password field, with real-time validation feedback",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Task Queue",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

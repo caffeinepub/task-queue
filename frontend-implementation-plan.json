@@ -1,0 +1,95 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Category delete protection, smart category icons, unified logo, and password criteria hint",
+  "requirements": [
+    {
+      "id": "REQ-21",
+      "summary": "Protect default categories from deletion and add delete buttons only for user-created categories",
+      "acceptanceCriteria": [
+        "Default categories (Work, Personal, Education, Household, Shopping, Health, Other) have no delete button and cannot be removed",
+        "User-created custom categories display a visible delete (×) icon next to their name in the sidebar",
+        "Clicking the delete icon on a custom category removes it from localStorage and immediately removes it from the sidebar list",
+        "Deleting a custom category does not affect tasks already assigned to that category",
+        "The currently active category is deselected (reverts to All Tasks) if the active category is deleted"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Sidebar.tsx",
+          "operation": "modify",
+          "description": "Add logic to distinguish default categories from user-created categories. Define a constant array of default category names (Work, Personal, Education, Household, Shopping, Health, Other). When rendering each category in the sidebar list, conditionally show a delete (×) button only if the category is not in the default list. Implement a delete handler that removes the category from localStorage via storage utilities, updates local state to remove it from the displayed list, and if the deleted category is currently active, reset the active category to All Tasks."
+        },
+        {
+          "path": "frontend/src/utils/storage.ts",
+          "operation": "modify",
+          "description": "Add a deleteCategory utility function that removes a specified category from the user's category list in localStorage. Ensure the function accepts a userId and categoryName, retrieves the current category array, filters out the matching category, and saves the updated array back to localStorage."
+        }
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "summary": "Auto-suggest emoji icons based on category name keywords",
+      "acceptanceCriteria": [
+        "Typing 'gym' (case-insensitive) in the add-category input shows a 🏋️ emoji preview",
+        "Typing 'political' or 'politics' shows a 🏛️ emoji preview",
+        "The suggested emoji is displayed as a visual hint next to or inside the input while typing",
+        "When the category is saved, the matched emoji is stored alongside the category name and rendered as its icon in the sidebar",
+        "If the keyword has no match, the category is saved with a default 📁 icon",
+        "Matching is case-insensitive and checks if the category name contains the keyword"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Sidebar.tsx",
+          "operation": "modify",
+          "description": "Add a keyword-to-emoji mapping object (e.g., 'gym' → 🏋️, 'political' → 🏛️, 'music' → 🎵, 'travel' → ✈️, 'food' → 🍔, 'sport' → ⚽, 'finance' → 💰, 'family' → 👨‍👩‍👧, 'health' → 💊, 'art' → 🎨, 'tech' → 💻, 'nature' → 🌿). Implement real-time emoji suggestion logic that checks the add-category input value on change, searches the mapping for any matching keyword (case-insensitive substring match), and displays the matched emoji as a preview near the input field. When the user saves the new category, store both the category name and the suggested emoji (or default 📁 if no match) in localStorage. Update the category rendering logic to display the stored emoji icon next to each category name in the sidebar."
+        },
+        {
+          "path": "frontend/src/utils/storage.ts",
+          "operation": "modify",
+          "description": "Update the category storage structure to support an optional icon field alongside the category name. Modify the addCategory or relevant category-saving function to accept and persist an emoji icon string. Ensure backward compatibility with existing categories that may not have an icon field by defaulting to 📁 when rendering."
+        }
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "summary": "Use the same Task Queue logo on the Login page as displayed in the Dashboard header",
+      "acceptanceCriteria": [
+        "The Login page displays the same logo image file as the Dashboard header",
+        "The logo src path on the Login page matches the src path in DashboardHeader.tsx exactly",
+        "No different or placeholder logo appears on the Login page",
+        "The logo is rendered alongside the 'Task Queue' wordmark text on the Login page"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/Login.tsx",
+          "operation": "modify",
+          "description": "Replace any existing logo on the Login page with the exact same <img> tag and src path used in DashboardHeader.tsx. Reference the logo file at frontend/public/assets/generated/task-queue-logo.dim_128x128.png (or the exact path found in DashboardHeader.tsx) and display it in the Login page header/branding area alongside the 'Task Queue' wordmark text. Remove any different, placeholder, or randomly generated logo images."
+        }
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "summary": "Add password criteria hint with real-time validation feedback on the Signup page",
+      "acceptanceCriteria": [
+        "A 'Minimum 6 characters' hint is visible below the Password field on the Signup page",
+        "The hint text turns red when the password input has fewer than 6 characters",
+        "The hint text turns green (or is hidden/checked) when the password input has 6 or more characters",
+        "Submitting the signup form with a password shorter than 6 characters is blocked",
+        "A custom popup with the message 'Password must be at least 6 characters.' is shown when the password is too short",
+        "The real-time feedback updates as the user types without requiring form submission"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/Signup.tsx",
+          "operation": "modify",
+          "description": "Add a password criteria hint text ('Minimum 6 characters') directly below the Password input field. Implement real-time validation that monitors the password input onChange event and updates the hint color: red when the password length is fewer than 6 characters, green (or hidden/checked) when 6 or more characters are entered. Ensure the hint updates dynamically as the user types without requiring form submission."
+        },
+        {
+          "path": "frontend/src/utils/auth.ts",
+          "operation": "modify",
+          "description": "Add password length validation to the signup function. Before processing the signup request, check if the password is fewer than 6 characters. If so, return an error result that triggers a custom popup with the message 'Password must be at least 6 characters.' and block the signup flow. Ensure this validation runs before any other checks (duplicate account, etc.)."
+        }
+      ]
+    }
+  ]
+}
