@@ -1,0 +1,350 @@
+IRONCLAD
+GYM WEBSITE - FULL BUILD PROMPT
+Version 1.0  ·  Complete Developer & Designer Brief
+
+1. PROJECT OVERVIEW
+Build a full-stack, production-grade gym management and fitness web application called IRONCLAD. The platform serves gym members with personalised workout programs and meal plans, powered by user profile data. The design must be clean, professional, and visually distinct - inspired by the layout philosophy of workout.cool (multi-section dashboard, card-based UI, smooth transitions) but with a completely original theme, colour palette, and visual identity so there is zero resemblance or IP concern.
+
+Website URL / Brand name: IRONCLAD
+Category: Fitness & Gym Management SaaS
+Primary Audience: Gym members, fitness enthusiasts, personal trainers
+
+2. DESIGN SYSTEM & VISUAL IDENTITY
+2.1 Theme
+The website must support both Dark Mode and Light Mode. The default should be Dark Mode. Users can toggle the theme from any page via a clearly visible icon in the top navigation bar (sun/moon icon). The selected theme must persist using localStorage so the preference is remembered across sessions.
+2.2 Colour Palette
+DARK MODE
+• Primary background: #0D0D0D (near black)
+• Surface / Card background: #141414
+• Elevated surface: #1C1C1C
+• Primary accent: #E8E0D0 (warm off-white / bone)
+• Secondary accent: #B87333 (copper / iron tone)
+• Text primary: #EDEDED
+• Text secondary: #888888
+• Border: rgba(255,255,255,0.07)
+• Danger / error: #E05252
+• Success: #4CAF7D
+LIGHT MODE
+• Primary background: #F5F4F0
+• Surface / Card background: #FFFFFF
+• Elevated surface: #EFEFEB
+• Primary accent: #1A1A2E (deep navy)
+• Secondary accent: #B87333 (copper - consistent across modes)
+• Text primary: #111111
+• Text secondary: #666666
+• Border: rgba(0,0,0,0.08)
+2.3 Typography
+• Display / Hero headings: Bebas Neue (Google Fonts)
+• UI headings & labels: Rajdhani - weight 600 / 700
+• Body text & descriptions: Inter - weight 400 / 500
+• Monospace / data: JetBrains Mono
+Font sizes follow an 8-point scale: 12 / 14 / 16 / 20 / 24 / 32 / 40 / 56px.
+2.4 Animations & Motion
+All animations must feel intentional, fast, and professional. Do NOT use heavy or distracting effects. Required animations:
+• Page transitions: fade-in + slight upward slide (translateY 20px ? 0, opacity 0 ? 1, 300ms ease-out)
+• Card hover: subtle lift with box-shadow deepening (transform: translateY(-4px), 200ms)
+• Button press: scale down slightly on :active (transform: scale(0.97))
+• Form input focus: border colour transition from default to accent (200ms)
+• Navigation active indicator: sliding underline / pill that animates between tabs
+• Dashboard stat counters: count-up animation on page load (0 ? actual value, 1.2s ease)
+• Skeleton loaders: shimmer pulse on all data-loading states
+• Toast / notification popup: slide in from top-right (300ms), auto-dismiss after 4s with fade-out
+• Modal open/close: scale from 0.95 ? 1 with fade (250ms)
+• Sidebar expand/collapse: smooth width transition (200ms ease-in-out)
+
+3. GLOBAL NAVIGATION BAR
+Present on all authenticated pages. Fixed to the top. Blurred glass background (backdrop-filter: blur(12px)).
+LEFT SIDE
+• IRONCLAD logo (text-based, Bebas Neue, copper accent on 'I' glyph)
+RIGHT SIDE ICONS (LEFT TO RIGHT)
+• Language selector icon - globe icon - opens a dropdown list of supported languages
+• Bell icon - opens notification panel - acts as reminder system (see Section 8)
+• Dark/Light theme toggle - sun/moon icon
+• User avatar circle - shows first letter of user's first name in large text, coloured background derived from username hash - clicking opens profile dropdown
+3.1 Language Selector
+The globe icon in the navbar opens a dropdown listing all supported languages. When the user selects a language, every visible text string on the website must update to the selected language instantly without page reload (client-side i18n). Supported languages at launch:
+• English (default)
+• Hindi (??????)
+• Spanish (Español)
+• French (Français)
+• German (Deutsch)
+• Japanese (???)
+• Arabic (???????) - RTL layout support required
+• Portuguese (Português)
+Use i18next or a similar i18n library. All user-facing strings must be extracted into translation JSON files (one per language). The selected language must be saved to localStorage.
+
+4. AUTHENTICATION PAGES
+4.1 Signup Page
+Route: /signup
+PAGE LAYOUT
+Split screen: Left panel shows a bold IRONCLAD brand graphic with a motivational quote. Right panel contains the signup form. On mobile, collapse to single-column with the brand graphic as a top banner.
+FORM FIELDS (TOP TO BOTTOM)
+• Page heading: 'Create an Account' - Rajdhani, bold, large
+• Subheading: 'Enter your information below to create your account' - Inter, muted text colour
+• First Name - text input, placeholder 'John'
+• Last Name - text input, placeholder 'Doe'
+• Email - email input, placeholder 'you@example.com', validate email format on blur
+• Password - password input with show/hide toggle eye icon, minimum 8 characters, show strength indicator bar below (Weak / Fair / Strong / Very Strong based on entropy)
+• Verify Password - password input, validates that it matches the Password field in real time
+• Submit button: 'Create Account' - full width, copper accent background, white text, hover glow
+SOCIAL SIGNUP
+• Divider line with 'or sign up with' text centred between lines
+• Three social buttons arranged horizontally: Google, Facebook, Twitter/X
+• Each button: rounded, outline style, official brand icon + text label, hover background tint
+FOOTER LINK
+• 'Already have an account? Login' - navigates to /login
+VALIDATION
+• All fields required - inline error messages appear below each field on submission attempt
+• Password match validation triggers on-change for the Verify Password field
+• Email uniqueness checked against backend on blur
+4.2 Login Page
+Route: /login
+PAGE LAYOUT
+Same split-screen structure as the Signup page for visual consistency. The left panel graphic may differ - show a gym action illustration or bold typography.
+FORM FIELDS
+• Page heading: 'Welcome Back' with the IRONCLAD logo above
+• Email - email input
+• Password - password input with show/hide toggle
+• Forgot Password link - positioned immediately below the password input field, right-aligned, links to /forgot-password
+• Submit button: 'Login' - full width, copper accent
+SOCIAL LOGIN
+• Same three social buttons as signup: Google, Facebook, Twitter/X
+FOOTER LINK
+• 'Don't have an account? Sign up' - navigates to /signup
+POST-LOGIN REDIRECT
+• On successful login, if the user has NOT completed their profile onboarding, redirect to /onboarding
+• If the user HAS completed onboarding, redirect to /dashboard
+4.3 Forgot Password Page
+Route: /forgot-password
+• Single field: Email - user enters their registered email
+• Submit button: 'Send Reset Link'
+• On submit: show a success message 'Check your inbox. We sent a reset link to [email]'
+• Backend sends a time-limited (60 minutes) password reset link to the email
+• Route /reset-password?token=... renders a form with New Password and Confirm Password fields
+
+5. USER AVATAR / PROFILE INDICATOR
+After the user logs in, their identity is shown in the top-right corner of every page as a circular avatar badge. Rules:
+• Extract the first character of the user's First Name (e.g. 'A' for 'Arjun')
+• Display this character in large, bold font (Bebas Neue or Rajdhani 700) centred inside the circle
+• The circle background colour is algorithmically derived from the user's full name using a consistent hashing function - this ensures the same user always sees the same colour, and different users see different colours
+• Suggested palette for hashed colours: a curated list of 12 rich, dark-mode-friendly accent colours (deep teal, forest green, indigo, rust, slate blue, olive, crimson, etc.) - the hash selects one deterministically
+• Clicking the avatar circle opens a dropdown menu with: Profile, Settings, My Plan, Logout
+
+6. ONBOARDING FLOW (Post-Signup Profile Setup)
+After a new user signs up, before they can access the dashboard, they must complete a multi-step onboarding form to capture data needed to generate personalised workout and meal plans. This is a step-by-step wizard UI - show a progress bar at the top (e.g. Step 2 of 4).
+Step 1 - Physical Stats
+• Height (cm or ft/in - toggle unit selector)
+• Weight (kg or lbs - toggle unit selector)
+• Age
+• Biological Sex (Male / Female / Prefer not to say) - toggle pill selector
+Step 2 - Lifestyle & Habits
+• Activity Level - radio cards with icons: Sedentary, Lightly Active, Moderately Active, Very Active, Athlete
+• Sleep Duration per night - slider (4-10 hours)
+• Smoking / Alcohol habits - checkbox options
+• Stress Level - slider (Low / Medium / High)
+Step 3 - Fitness Goals
+• Primary Goal - select one: Lose Weight, Build Muscle, Improve Endurance, Maintain Fitness, Increase Flexibility
+• Secondary Goal (optional) - same options minus the primary
+• Training Experience - Beginner / Intermediate / Advanced - card selector
+• Available Days per Week for Training - number picker (1-7)
+• Preferred Workout Duration - radio: 30 min / 45 min / 60 min / 90 min
+Step 4 - Food & Dietary Preferences
+• Diet Type - multi-select tags: No Restrictions, Vegetarian, Vegan, Keto, Paleo, Gluten-Free, Dairy-Free, Halal, Kosher
+• Food Allergies - text input (comma-separated) or multi-select common allergens
+• Meals per Day - number picker (2-6)
+• Disliked foods - optional free-text field
+
+On completion of all 4 steps the data is saved to the user's profile and the user is redirected to the main dashboard.
+
+7. MAIN DASHBOARD
+Route: /dashboard - the home screen after login. Divided into clearly labelled sections with a left sidebar navigation and a main content area.
+7.1 Sidebar Navigation
+• IRONCLAD logo at top
+• Menu items: Dashboard, Workouts, Nutrition / Food, Progress, Plans & Premium, Settings
+• Active item: highlighted with copper accent + sliding indicator animation
+• Sidebar is collapsible on desktop (icon-only mode), always a hamburger drawer on mobile
+7.2 Dashboard Overview Cards
+Row of 4 stat cards at the top of the dashboard content area:
+• Today's Calories Goal vs. Consumed
+• Workout Streak (days in a row)
+• Weekly Workouts Completed
+• Current Weight vs. Target Weight
+All stat numbers animate up from 0 using a count-up animation on page load.
+7.3 Quick Access Tabs
+Immediately below the stat cards, two prominent tab buttons:
+• WORKOUT - navigates to the Workout section
+• FOOD / NUTRITION - navigates to the Nutrition section
+These are the two primary feature sections of the platform (detailed in Sections 9 and 10).
+
+8. BELL ICON - REMINDER & NOTIFICATION SYSTEM
+The bell icon in the global navbar opens a slide-in notification panel from the right side of the screen.
+Notification Types
+• Workout reminders - 'Time to train! Your chest day is scheduled for today'
+• Meal reminders - 'Don't forget your post-workout meal'
+• Hydration reminders - 'Drink a glass of water'
+• Plan expiry alerts - 'Your premium plan expires in 3 days'
+• Progress milestones - 'You hit your protein goal 5 days in a row!'
+Reminder Configuration
+• Users can set custom reminder times in Settings > Notifications
+• Reminders are sent as in-app notifications (panel) and optionally as browser push notifications if the user grants permission
+• Unread count badge shown on the bell icon (red dot or number)
+• Clicking a notification marks it as read and navigates to the relevant page
+
+9. WORKOUT SECTION
+Route: /workouts
+Based on the user's onboarding data (goals, experience level, available days, equipment), the system generates a personalised weekly workout plan. The plan is displayed using an accordion-style or tab-based day-by-day layout.
+9.1 Weekly Plan View
+• Days of the week are shown as horizontal tabs (Mon, Tue, Wed, Thu, Fri, Sat, Sun)
+• Each day tab shows the muscle group targeted (e.g. 'CHEST & TRICEPS')
+• Rest days are clearly labelled with a 'Rest / Recovery' tag
+• Active/current day is highlighted
+9.2 Workout Card - Each Exercise
+Each individual exercise within a day is rendered as an expandable card. The collapsed state shows:
+• Exercise name (e.g. 'Bench Press')
+• Target muscle group tag
+• Sets × Reps or Duration (e.g. '4 × 10' or '3 × 45 sec')
+• Difficulty badge: Beginner / Intermediate / Advanced
+When the user clicks / expands the card, it shows:
+• Full description of the exercise: how to perform it, common mistakes, breathing cues, form tips - 3 to 5 sentences minimum
+• Equipment required (e.g. Barbell, Dumbbell, Bodyweight)
+• Muscle group diagram highlighting which muscles are engaged
+• YouTube video embed - embed a relevant, curated YouTube tutorial video showing the correct form for that specific exercise
+• Rest time between sets
+• A 'Mark as Complete' checkbox / button - when checked, the card turns a success green and is visually struck through
+• 'Log This Exercise' button - opens a quick-entry modal to log actual sets, reps, and weight used
+9.3 Workout Filters & Search
+• Search bar to filter exercises by name
+• Filter by: Muscle Group, Equipment, Difficulty
+• 'Regenerate Plan' button - re-generates the workout plan based on updated profile data
+9.4 YouTube Video Rules
+• Videos must be embedded using YouTube's standard iframe embed (youtube.com/embed/VIDEO_ID)
+• Videos must be curated - link to publicly available, widely trusted fitness tutorial channels (e.g. Jeff Nippard, Athlean-X, Jeremy Ethier)
+• Videos must auto-pause - do NOT autoplay
+• Video must be contained within the card's expanded area, responsive 16:9 aspect ratio
+• Include a 'Watch on YouTube' external link below the embed
+
+10. NUTRITION / FOOD SECTION
+Route: /nutrition
+The nutrition section helps users plan and track their daily diet. It is split into two sub-sections: Meal Plan Generator and Food Log.
+10.1 Meal Plan Generator
+When the user visits the Nutrition section for the first time (or clicks 'Generate New Plan'), the following input form is shown:
+INPUT FIELDS
+• Daily Calorie Target - pre-filled from calculated TDEE based on onboarding data, user can adjust
+• Protein goal (grams) - pre-filled, adjustable
+• Carbohydrate goal (grams) - pre-filled, adjustable
+• Fat goal (grams) - pre-filled, adjustable
+• Number of meals per day - number picker (2-6)
+• Diet type reminder - pulled from onboarding, user can override here (Veg, Vegan, Keto, etc.)
+• Cuisine preference - optional: Indian, Mediterranean, American, Asian, No Preference
+• 'Generate My Meal Plan' button - prominent CTA
+OUTPUT - FREE TIER
+• Display a 1-day meal plan (Breakfast, Lunch, Dinner, Snacks based on meal count)
+• Each meal card shows: meal name, ingredients list, approximate calories & macros, preparation time
+• 'Full Recipe' button on each meal card - expands to show step-by-step preparation instructions
+• 'Swap this Meal' button - generates an alternative meal for that slot
+• Total daily macro summary shown at the top as a visual progress bar breakdown (Protein / Carbs / Fats)
+PREMIUM GATE
+• Below the 1-day free plan, display a locked section showing a blurred preview of the 7-day full meal plan
+• Over the blur, show a card: 'Unlock Your Full 7-Day Meal Plan + 100+ Recipes - Go Premium'
+• A prominent 'Upgrade to Premium' button navigates to the /plans page
+10.2 Food Log
+• Users can manually log food they eat throughout the day
+• Search for food items from a database (use a free food API such as Open Food Facts or Nutritionix)
+• Add portion size - auto-calculates calories and macros
+• Daily log shows a running total of calories and macros consumed vs. goal
+• Visual calorie ring / donut chart updates in real-time as items are logged
+
+11. PLANS & PREMIUM PAGE
+Route: /plans
+Displayed when users hit premium gates. Clean, high-conversion pricing page.
+Plan Cards - Three Tiers
+FREE PLAN
+• 1-day meal plan generation
+• Basic workout plan (3-day split)
+• Limited exercise library
+• No video guides
+• 1 language
+PREMIUM - MONTHLY ($12.99/MONTH)
+• 7-day meal plan + recipe library
+• Full 6-day personalised workout split
+• YouTube video guides for all exercises
+• Progress tracking & analytics
+• All languages supported
+• Priority notifications & reminders
+• Highlight: 'Most Popular' badge
+ELITE - ANNUAL ($89.99/YEAR)
+• Everything in Premium
+• 1-on-1 AI coach chat
+• Custom plan regeneration unlimited
+• Early access to new features
+• Save 42% vs monthly
+Each card: feature comparison checklist (checkmarks and crosses), CTA button, hover lift animation.
+
+12. SETTINGS PAGE
+Route: /settings
+• Profile tab: Edit First Name, Last Name, Email, Profile Photo upload
+• Physical Stats tab: Update Height, Weight, Age - triggers plan regeneration option
+• Notifications tab: Toggle on/off each reminder type, set preferred reminder times
+• Appearance tab: Theme toggle (Dark / Light), Font size preference
+• Language tab: Full language selector (same as header globe)
+• Password tab: Change password form (Current, New, Confirm New)
+• Account tab: Delete Account (with confirmation dialog), Download My Data
+
+13. PROGRESS TRACKING PAGE
+Route: /progress
+• Weight chart - line graph of weight over time (user logs weight daily / weekly)
+• Workout frequency chart - bar chart showing workouts per week over last 12 weeks
+• Streak calendar - GitHub-style contribution heatmap showing active training days
+• Body measurement log (chest, waist, hips, arms - optional user input)
+• Before/After photo upload - side-by-side display
+
+14. RECOMMENDED TECH STACK
+Frontend
+• Framework: React (with TypeScript) or Next.js 14 (App Router)
+• Styling: Tailwind CSS with a custom design tokens config
+• Animation: Framer Motion (for page transitions, card animations)
+• State management: Zustand or Redux Toolkit
+• i18n: i18next + react-i18next
+• Charts: Recharts or Chart.js
+• Icons: Lucide React
+Backend
+• Node.js + Express.js REST API or Next.js API routes
+• Database: PostgreSQL (via Prisma ORM) or MongoDB
+• Authentication: NextAuth.js (supports Google, Facebook, Twitter OAuth + credentials)
+• Password hashing: bcrypt
+• Email: Nodemailer + SendGrid for password reset emails
+Third-party APIs
+• Food database: Open Food Facts API (free) or Nutritionix API
+• YouTube embeds: Standard iframe embed (no API key needed for embedding)
+• Push notifications: Web Push API (Notification API)
+
+15. IMPORTANT IMPLEMENTATION NOTES
+
+??  ORIGINALITY: The design must be visually original. Do NOT copy the layout, component structure, colour scheme, typography, or animations of workout.cool or any other existing fitness platform. Use the concept of a dashboard-based fitness app as inspiration only. Every visual decision must be independently designed.
+??  NO IP INFRINGEMENT: All icons, illustrations, images, and fonts used must be open-source, royalty-free, or properly licensed. Do not use brand logos (Google, Facebook, Twitter) beyond what is covered under their official brand guidelines for login buttons.
+?? RESPONSIVE DESIGN: All pages must be fully responsive - mobile-first. Test layouts at 375px, 768px, 1024px, 1440px breakpoints. The sidebar collapses to a bottom tab bar on mobile.
+?? ACCESSIBILITY: All interactive elements must have aria labels. Colour contrast must meet WCAG 2.1 AA standards in both light and dark mode. Keyboard navigation must be fully functional.
+?? PERFORMANCE: Lazy-load all images and YouTube iframes. Use Intersection Observer to trigger animations only when elements enter the viewport. Code-split routes.
+?? SECURITY: Never expose API keys on the frontend. Use httpOnly cookies for auth tokens. Rate-limit the login endpoint. Sanitize all user inputs to prevent XSS and SQL injection.
+16. FEATURE CHECKLIST SUMMARY
+• Signup page with First Name, Last Name, Email, Password, Verify Password, Social OAuth
+• Login page with Forgot Password link below password field
+• Forgot Password and Reset Password flow via email link
+• Post-login first-character avatar with hashed background colour
+• 4-step onboarding wizard: Physical Stats, Lifestyle, Goals, Diet
+• Main dashboard with stat cards and quick-access Workout / Food tabs
+• Global navbar: Logo, Language selector, Bell reminder, Theme toggle, Avatar
+• Dark Mode and Light Mode with persistence via localStorage
+• Multi-language support (8+ languages) with RTL support for Arabic
+• Workout section: personalised weekly plan, exercise cards, descriptions, YouTube embeds
+• Nutrition section: meal plan generator form, 1-day free plan, 7-day premium-locked plan
+• Food log with food search API, portion sizing, real-time macro tracking
+• Bell icon reminder system with configurable notification types and times
+• Premium plans page: Free, Premium Monthly, Elite Annual
+• Progress tracking page: weight chart, workout frequency, streak calendar
+• Settings page: profile, stats, notifications, appearance, language, password, account
+• All pages: smooth animations, skeleton loaders, toast notifications
+• Fully responsive: mobile-first, 375px through 1440px
+• WCAG 2.1 AA accessible, keyboard navigable
+
+IRONCLAD - End of Build Brief
