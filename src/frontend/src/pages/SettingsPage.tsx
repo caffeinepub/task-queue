@@ -323,31 +323,18 @@ const SettingsPage: React.FC<Props> = ({ user, theme, onToggleTheme, onLogout })
               <div className="space-y-5">
                 <div>
                   <p className="text-sm font-heading font-semibold mb-3 uppercase tracking-wide" style={{ color: 'var(--ic-text-secondary)' }}>Theme</p>
-                  <div className="flex gap-3">
-                    <button
-                      type="button"
-                      onClick={() => { if (theme === 'light') onToggleTheme(); }}
-                      className="flex-1 flex flex-col items-center gap-2 p-4 rounded-xl transition-all"
-                      style={{
-                        background: theme === 'dark' ? 'rgba(59,130,246,0.1)' : '#F3F4F6',
-                        border: `1.5px solid ${theme === 'dark' ? '#3B82F6' : 'rgba(0,0,0,0.08)'}`,
-                      }}
-                    >
-                      <span className="text-2xl">🌙</span>
-                      <span className="text-sm font-heading font-semibold" style={{ color: theme === 'dark' ? '#3B82F6' : 'var(--ic-text-secondary)' }}>Dark</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { if (theme === 'dark') onToggleTheme(); }}
-                      className="flex-1 flex flex-col items-center gap-2 p-4 rounded-xl transition-all"
-                      style={{
-                        background: theme === 'light' ? 'rgba(34,197,94,0.1)' : '#F3F4F6',
-                        border: `1.5px solid ${theme === 'light' ? '#22C55E' : 'rgba(0,0,0,0.08)'}`,
-                      }}
-                    >
-                      <span className="text-2xl">☀️</span>
-                      <span className="text-sm font-heading font-semibold" style={{ color: theme === 'light' ? '#22C55E' : 'var(--ic-text-secondary)' }}>Light</span>
-                    </button>
+                  <div
+                    className="flex items-center gap-3 p-4 rounded-xl"
+                    style={{
+                      background: 'rgba(34,197,94,0.08)',
+                      border: '1.5px solid #22C55E',
+                    }}
+                  >
+                    <span className="text-2xl">☀️</span>
+                    <div>
+                      <p className="font-heading font-bold text-sm" style={{ color: '#22C55E' }}>Light Theme is Active</p>
+                      <p className="text-xs mt-0.5" style={{ color: 'var(--ic-text-secondary)' }}>The app always uses the white light theme.</p>
+                    </div>
                   </div>
                 </div>
 

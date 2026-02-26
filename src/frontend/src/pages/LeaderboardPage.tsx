@@ -101,7 +101,7 @@ const LeaderboardPage: React.FC = () => {
           Champions
         </h1>
         <p className="text-sm" style={{ color: 'var(--ic-text-secondary)' }}>
-          The most dedicated athletes in the IRONCLAD community
+          The most dedicated athletes in the VOLT community
         </p>
       </div>
 

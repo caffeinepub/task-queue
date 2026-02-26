@@ -80,7 +80,7 @@ const PlansPage: React.FC = () => {
           Train freely, support the mission 💪
         </h1>
         <p className="text-sm" style={{ color: 'var(--ic-text-secondary)' }}>
-          IRONCLAD remains free forever. Premium supports development and unlocks advanced features.
+          VOLT remains free forever. Premium supports development and unlocks advanced features.
         </p>
       </div>
 
@@ -323,7 +323,7 @@ const PlansPage: React.FC = () => {
           Ready to level up your training?
         </p>
         <p className="text-sm mb-4" style={{ color: 'var(--ic-text-secondary)' }}>
-          Join 12,400+ athletes who train with IRONCLAD Premium
+          Join 12,400+ athletes who train with VOLT Premium
         </p>
         <button
           type="button"

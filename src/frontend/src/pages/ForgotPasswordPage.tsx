@@ -31,8 +31,8 @@ const ForgotPasswordPage: React.FC<Props> = ({ onGoToLogin }) => {
     <div className="min-h-screen flex items-center justify-center p-6 page-enter" style={{ background: 'var(--ic-bg)' }}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <img src="/assets/uploads/Brand-1.png" alt="IRONCLAD brand logo" className="w-16 h-auto mx-auto mb-4" />
-          <h1 className="font-display text-4xl tracking-widest" style={{ color: 'var(--ic-copper)' }}>IRONCLAD</h1>
+          <img src="/assets/generated/volt-logo.dim_200x200.png" alt="VOLT logo" className="w-16 h-16 mx-auto mb-4 rounded-md object-contain" />
+          <h1 className="font-display text-4xl tracking-widest" style={{ color: '#111827' }}>VOLT</h1>
         </div>
 
         <div className="ic-card p-8">

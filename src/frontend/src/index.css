@@ -47,6 +47,7 @@
     --ic-copper-light: #D4A96A;
   }
 
+  /* Dark mode is permanently disabled — these overrides are kept for reference but .dark class is never applied */
   .dark {
     /* shadcn/ui tokens — dark */
     --background: 0 0% 5%;
@@ -94,6 +95,7 @@
 
   html {
     scroll-behavior: smooth;
+    color-scheme: light !important;
   }
 
   body {

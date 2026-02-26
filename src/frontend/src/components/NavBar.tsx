@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Bell, Sun, Moon, Globe, ChevronDown, User, Settings, CreditCard, LogOut,
+  Bell, Globe, ChevronDown, User, Settings, CreditCard, LogOut,
   Dumbbell, X, Zap, Droplets, Apple, Trophy, TrendingUp
 } from 'lucide-react';
 import { getAvatarColor } from '../utils/crypto';
@@ -65,11 +65,9 @@ const NavBar: React.FC<Props> = ({ user, theme, onToggleTheme, onLogout, onNavig
   const avatarColor = getAvatarColor(user.firstName);
   const initial = user.firstName.charAt(0).toUpperCase();
 
-  const navBg = theme === 'dark'
-    ? 'rgba(13,13,13,0.92)'
-    : 'rgba(255,255,255,0.95)';
-
-  const ironCladColor = theme === 'dark' ? 'var(--ic-copper)' : '#111827';
+  // Always light theme
+  const navBg = 'rgba(255,255,255,0.95)';
+  const ironCladColor = '#111827';
 
   return (
     <header
@@ -98,12 +96,12 @@ const NavBar: React.FC<Props> = ({ user, theme, onToggleTheme, onLogout, onNavig
             </div>
           </button>
           <button type="button" onClick={() => onNavigate('dashboard')} className="flex items-center gap-2">
-            <img src="/assets/uploads/Brand-1.png" alt="IRONCLAD logo" className="w-7 h-7 object-contain" />
+            <img src="/assets/generated/volt-logo.dim_200x200.png" alt="VOLT logo" className="w-7 h-7 object-contain rounded-md" />
             <span
               className="font-display text-2xl tracking-widest hidden sm:block"
               style={{ color: ironCladColor }}
             >
-              IRONCLAD
+              VOLT
             </span>
           </button>
         </div>
@@ -204,17 +202,6 @@ const NavBar: React.FC<Props> = ({ user, theme, onToggleTheme, onLogout, onNavig
               </div>
             )}
           </div>
-
-          {/* Theme toggle */}
-          <button
-            type="button"
-            onClick={onToggleTheme}
-            className="p-2 rounded-lg transition-colors hover:bg-[rgba(0,0,0,0.05)]"
-            style={{ color: 'var(--ic-text-secondary)' }}
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
 
           {/* User avatar */}
           <div ref={userRef} className="relative ml-1">

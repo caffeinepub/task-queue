@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { Eye, EyeOff, X } from 'lucide-react';
-import { SiGoogle, SiFacebook, SiX } from 'react-icons/si';
+import { Eye, EyeOff, X, Bell, Globe, User, Dumbbell, BarChart2, BookOpen, Wrench, Trophy, Crown } from 'lucide-react';
+import { SiGoogle } from 'react-icons/si';
 import { toast } from 'sonner';
 import { backend } from '../utils/backendService';
 import { hashPassword, generateVerificationCode } from '../utils/crypto';
@@ -24,6 +24,15 @@ function getPasswordStrength(pw: string): { label: string; score: number; color:
   return { label: 'Very Strong', score: 4, color: '#06b6d4' };
 }
 
+const BOTTOM_TABS = [
+  { label: 'Workouts', icon: Dumbbell },
+  { label: 'Programs', icon: BookOpen },
+  { label: 'Statistics', icon: BarChart2 },
+  { label: 'Tools', icon: Wrench },
+  { label: 'Leaderboard', icon: Trophy },
+  { label: 'Premium', icon: Crown },
+];
+
 const SignupPage: React.FC<Props> = ({ onSignupSuccess, onGoToLogin }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -35,11 +44,9 @@ const SignupPage: React.FC<Props> = ({ onSignupSuccess, onGoToLogin }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
-  // Refs to read actual DOM values (handles browser autofill that bypasses onChange)
   const passwordRef = useRef<HTMLInputElement>(null);
   const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
-  // Verification modal
   const [showVerify, setShowVerify] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
@@ -49,10 +56,8 @@ const SignupPage: React.FC<Props> = ({ onSignupSuccess, onGoToLogin }) => {
   const strength = getPasswordStrength(password);
 
   const validate = () => {
-    // Read actual DOM values to handle browser autofill that doesn't trigger onChange
     const pwValue = passwordRef.current?.value ?? password;
     const confirmValue = confirmPasswordRef.current?.value ?? confirmPassword;
-    // Sync state if DOM differs (autofill case)
     if (pwValue !== password) setPassword(pwValue);
     if (confirmValue !== confirmPassword) setConfirmPassword(confirmValue);
 
@@ -71,7 +76,6 @@ const SignupPage: React.FC<Props> = ({ onSignupSuccess, onGoToLogin }) => {
 
   const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault();
-    // Read DOM values directly at submit time to handle autofill
     const pwValue = passwordRef.current?.value ?? password;
     const confirmValue = confirmPasswordRef.current?.value ?? confirmPassword;
     if (pwValue !== password) setPassword(pwValue);
@@ -127,210 +131,259 @@ const SignupPage: React.FC<Props> = ({ onSignupSuccess, onGoToLogin }) => {
     }
   };
 
-  const handleSocialLogin = (provider: string) => {
-    toast.info(`${provider} login is not available on this platform.`);
+  const handleGoogleSignup = () => {
+    toast.info('Google signup is not available on this platform. Please use email/password.');
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center" style={{ background: '#f0f4f8' }}>
+    <div className="min-h-screen flex flex-col" style={{ background: '#f5f7fa' }}>
       {/* Top nav bar */}
-      <div className="w-full bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between fixed top-0 left-0 z-10">
+      <header className="w-full bg-white border-b border-gray-200 px-4 py-2.5 flex items-center justify-between fixed top-0 left-0 z-10">
         <div className="flex items-center gap-2">
-          <img src="/assets/uploads/Brand-1.png" alt="IRONCLAD logo" className="w-8 h-8 object-contain" />
-          <span className="font-bold text-gray-900 text-base">IRONCLAD</span>
+          <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: '#1a1a2e' }}>
+            <img
+              src="/assets/generated/volt-logo.dim_200x200.png"
+              alt="VOLT logo"
+              className="w-6 h-6 object-contain"
+              onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+            />
+          </div>
+          <span className="font-bold text-gray-900 text-base tracking-wide">VOLT</span>
         </div>
-        <div className="flex items-center gap-4 text-sm text-gray-500">
-          <span className="cursor-pointer hover:text-gray-700">Remove Ads</span>
+        <div className="flex items-center gap-1">
+          <button type="button" className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500" aria-label="Notifications">
+            <Bell size={17} />
+          </button>
+          <button type="button" className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500" aria-label="Language">
+            <Globe size={17} />
+          </button>
+          <button type="button" className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white" aria-label="User">
+            <User size={15} />
+          </button>
         </div>
-      </div>
+      </header>
 
       {/* Form container */}
-      <div className="w-full max-w-sm mx-auto px-6 pt-24 pb-24">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Create an account</h1>
-        <p className="text-sm text-gray-500 mb-6">Enter your information below to create your account</p>
+      <main className="flex-1 flex flex-col items-center justify-start pt-20 pb-24 px-4">
+        <div className="w-full max-w-sm mx-auto py-6">
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Create an account</h1>
+          <p className="text-sm text-gray-500 mb-6">Enter your information below to create your account</p>
 
-        <form onSubmit={handleSubmit} noValidate className="space-y-4">
-          {errors.general && (
-            <div className="p-3 rounded-lg text-sm bg-red-50 text-red-600 border border-red-200">
-              {errors.general}
-            </div>
-          )}
-
-          {/* First & Last name */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label htmlFor="signup-firstname" className="block text-sm font-medium text-gray-700 mb-1.5">First name</label>
-              <input
-                id="signup-firstname"
-                type="text"
-                value={firstName}
-                onChange={e => { setFirstName(e.target.value); setErrors(p => ({ ...p, firstName: undefined! })); }}
-                placeholder="John"
-                className="w-full px-3 py-2.5 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
-                style={errors.firstName ? { borderColor: '#ef4444' } : { borderColor: '#d1d5db' }}
-                autoComplete="given-name"
-              />
-              {errors.firstName && <p className="text-xs mt-1 text-red-500">{errors.firstName}</p>}
-            </div>
-            <div>
-              <label htmlFor="signup-lastname" className="block text-sm font-medium text-gray-700 mb-1.5">Last name</label>
-              <input
-                id="signup-lastname"
-                type="text"
-                value={lastName}
-                onChange={e => { setLastName(e.target.value); setErrors(p => ({ ...p, lastName: undefined! })); }}
-                placeholder="Doe"
-                className="w-full px-3 py-2.5 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
-                style={errors.lastName ? { borderColor: '#ef4444' } : { borderColor: '#d1d5db' }}
-                autoComplete="family-name"
-              />
-              {errors.lastName && <p className="text-xs mt-1 text-red-500">{errors.lastName}</p>}
-            </div>
-          </div>
-
-          {/* Email */}
-          <div>
-            <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-            <input
-              id="signup-email"
-              type="email"
-              value={email}
-              onChange={e => { setEmail(e.target.value); setErrors(p => ({ ...p, email: undefined! })); }}
-              placeholder="john@doe.com"
-              className="w-full px-3 py-2.5 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
-              style={errors.email ? { borderColor: '#ef4444' } : { borderColor: '#d1d5db' }}
-              autoComplete="email"
-            />
-            {errors.email && <p className="text-xs mt-1 text-red-500">{errors.email}</p>}
-          </div>
-
-          {/* Password */}
-          <div>
-            <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
-            <div className="relative">
-              <input
-                ref={passwordRef}
-                id="signup-password"
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: undefined! })); }}
-                onInput={e => { setPassword((e.target as HTMLInputElement).value); setErrors(p => ({ ...p, password: undefined! })); }}
-                placeholder="Min. 6 characters"
-                className="w-full px-3 py-2.5 pr-10 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
-                style={errors.password ? { borderColor: '#ef4444' } : { borderColor: '#d1d5db' }}
-                autoComplete="new-password"
-              />
-              <button type="button" onClick={() => setShowPassword(v => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}>
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            </div>
-            {/* Password strength bars */}
-            {password && (
-              <div className="mt-2">
-                <div className="flex gap-1 mb-1">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="flex-1 h-1 rounded-full transition-all duration-300"
-                      style={{ background: i <= strength.score ? strength.color : '#e5e7eb' }} />
-                  ))}
-                </div>
-                <p className="text-xs" style={{ color: strength.color }}>{strength.label}</p>
-                {password.length < 6 && <p className="text-xs mt-0.5 text-gray-400">Minimum 6 characters required</p>}
+          <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            {errors.general && (
+              <div className="p-3 rounded-lg text-sm bg-red-50 text-red-600 border border-red-200">
+                {errors.general}
               </div>
             )}
-            {errors.password && <p className="text-xs mt-1 text-red-500">{errors.password}</p>}
-          </div>
 
-          {/* Verify password */}
-          <div>
-            <label htmlFor="signup-confirm" className="block text-sm font-medium text-gray-700 mb-1.5">Verify password</label>
-            <div className="relative">
-              <input
-                ref={confirmPasswordRef}
-                id="signup-confirm"
-                type={showConfirm ? 'text' : 'password'}
-                value={confirmPassword}
-                onChange={e => { setConfirmPassword(e.target.value); setErrors(p => ({ ...p, confirmPassword: undefined! })); }}
-                onInput={e => { setConfirmPassword((e.target as HTMLInputElement).value); setErrors(p => ({ ...p, confirmPassword: undefined! })); }}
-                placeholder="Repeat password"
-                className="w-full px-3 py-2.5 pr-10 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
-                style={errors.confirmPassword ? { borderColor: '#ef4444' } : (confirmPassword && confirmPassword === password ? { borderColor: '#22c55e' } : { borderColor: '#d1d5db' })}
-                autoComplete="off"
-              />
-              <button type="button" onClick={() => setShowConfirm(v => !v)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                aria-label={showConfirm ? 'Hide password' : 'Show password'}>
-                {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
+            {/* First & Last name */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="signup-firstname" className="block text-sm font-medium text-gray-700 mb-1.5">First name</label>
+                <input
+                  id="signup-firstname"
+                  type="text"
+                  value={firstName}
+                  onChange={e => { setFirstName(e.target.value); setErrors(p => ({ ...p, firstName: '' })); }}
+                  placeholder="John"
+                  className="w-full px-3 py-2.5 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
+                  style={errors.firstName ? { borderColor: '#ef4444' } : { borderColor: '#e5e7eb' }}
+                  autoComplete="given-name"
+                />
+                {errors.firstName && <p className="text-xs mt-1 text-red-500">{errors.firstName}</p>}
+              </div>
+              <div>
+                <label htmlFor="signup-lastname" className="block text-sm font-medium text-gray-700 mb-1.5">Last name</label>
+                <input
+                  id="signup-lastname"
+                  type="text"
+                  value={lastName}
+                  onChange={e => { setLastName(e.target.value); setErrors(p => ({ ...p, lastName: '' })); }}
+                  placeholder="Doe"
+                  className="w-full px-3 py-2.5 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
+                  style={errors.lastName ? { borderColor: '#ef4444' } : { borderColor: '#e5e7eb' }}
+                  autoComplete="family-name"
+                />
+                {errors.lastName && <p className="text-xs mt-1 text-red-500">{errors.lastName}</p>}
+              </div>
             </div>
-            {errors.confirmPassword && <p className="text-xs mt-1 text-red-500">{errors.confirmPassword}</p>}
+
+            {/* Email */}
+            <div>
+              <label htmlFor="signup-email" className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+              <input
+                id="signup-email"
+                type="email"
+                value={email}
+                onChange={e => { setEmail(e.target.value); setErrors(p => ({ ...p, email: '' })); }}
+                placeholder="john@doe.com"
+                className="w-full px-3 py-2.5 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
+                style={errors.email ? { borderColor: '#ef4444' } : { borderColor: '#e5e7eb' }}
+                autoComplete="email"
+              />
+              {errors.email && <p className="text-xs mt-1 text-red-500">{errors.email}</p>}
+            </div>
+
+            {/* Password */}
+            <div>
+              <label htmlFor="signup-password" className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+              <div className="relative">
+                <input
+                  ref={passwordRef}
+                  id="signup-password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: '' })); }}
+                  onInput={e => { setPassword((e.target as HTMLInputElement).value); setErrors(p => ({ ...p, password: '' })); }}
+                  placeholder="Min. 6 characters"
+                  className="w-full px-3 py-2.5 pr-10 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
+                  style={errors.password ? { borderColor: '#ef4444' } : { borderColor: '#e5e7eb' }}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(v => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+              {/* Password strength */}
+              {password && (
+                <div className="mt-2">
+                  <div className="flex gap-1 mb-1">
+                    {[1, 2, 3, 4].map(i => (
+                      <div
+                        key={i}
+                        className="flex-1 h-1 rounded-full transition-all duration-300"
+                        style={{ background: i <= strength.score ? strength.color : '#e5e7eb' }}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-xs" style={{ color: strength.color }}>{strength.label}</p>
+                  {password.length < 6 && (
+                    <p className="text-xs mt-0.5 text-gray-400">Minimum 6 characters required</p>
+                  )}
+                </div>
+              )}
+              {errors.password && <p className="text-xs mt-1 text-red-500">{errors.password}</p>}
+            </div>
+
+            {/* Confirm password */}
+            <div>
+              <label htmlFor="signup-confirm" className="block text-sm font-medium text-gray-700 mb-1.5">Verify password</label>
+              <div className="relative">
+                <input
+                  ref={confirmPasswordRef}
+                  id="signup-confirm"
+                  type={showConfirm ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={e => { setConfirmPassword(e.target.value); setErrors(p => ({ ...p, confirmPassword: '' })); }}
+                  onInput={e => { setConfirmPassword((e.target as HTMLInputElement).value); setErrors(p => ({ ...p, confirmPassword: '' })); }}
+                  placeholder="Repeat password"
+                  className="w-full px-3 py-2.5 pr-10 text-sm border rounded-lg outline-none transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder-gray-400"
+                  style={
+                    errors.confirmPassword
+                      ? { borderColor: '#ef4444' }
+                      : confirmPassword && confirmPassword === password
+                        ? { borderColor: '#22c55e' }
+                        : { borderColor: '#e5e7eb' }
+                  }
+                  autoComplete="off"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm(v => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  aria-label={showConfirm ? 'Hide password' : 'Show password'}
+                >
+                  {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+              {errors.confirmPassword && <p className="text-xs mt-1 text-red-500">{errors.confirmPassword}</p>}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-all mt-1"
+              style={{ background: loading ? '#60a5fa' : '#3b82f6', opacity: loading ? 0.85 : 1 }}
+            >
+              {loading ? (
+                <span className="flex items-center gap-2 justify-center">
+                  <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                  Creating account...
+                </span>
+              ) : 'Submit'}
+            </button>
+          </form>
+
+          {/* OR divider */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400 uppercase tracking-wider">OR</span>
+            <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          <button type="submit" disabled={loading}
-            className="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-all mt-1"
-            style={{ background: loading ? '#60a5fa' : '#3b82f6', opacity: loading ? 0.8 : 1 }}>
-            {loading ? (
-              <span className="flex items-center gap-2 justify-center">
-                <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                Creating account...
+          {/* Google button */}
+          <button
+            type="button"
+            onClick={handleGoogleSignup}
+            className="w-full flex items-center justify-center gap-3 py-2.5 rounded-lg border text-sm font-medium transition-all hover:bg-gray-50 bg-white"
+            style={{ borderColor: '#3b82f6', color: '#3b82f6' }}
+          >
+            <SiGoogle size={16} style={{ color: '#DB4437' }} />
+            Sign up with Google
+          </button>
+
+          <p className="text-center text-sm mt-6 text-gray-600">
+            Already have an account?{' '}
+            <button type="button" onClick={onGoToLogin} className="text-blue-600 font-semibold hover:underline">
+              Login
+            </button>
+          </p>
+        </div>
+      </main>
+
+      {/* Bottom tab bar */}
+      <nav
+        className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex items-stretch"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
+        {BOTTOM_TABS.map(tab => {
+          const Icon = tab.icon;
+          const isPremium = tab.label === 'Premium';
+          return (
+            <div
+              key={tab.label}
+              className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2"
+              style={{ position: 'relative' }}
+            >
+              <Icon
+                size={20}
+                strokeWidth={1.8}
+                style={{ color: isPremium ? '#F59E0B' : '#9CA3AF' }}
+              />
+              <span
+                style={{
+                  color: isPremium ? '#F59E0B' : '#9CA3AF',
+                  fontSize: '0.6rem',
+                  fontWeight: 500,
+                }}
+              >
+                {tab.label}
               </span>
-            ) : 'Submit'}
-          </button>
-        </form>
-
-        {/* OR divider */}
-        <div className="flex items-center gap-3 my-5">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="text-xs text-gray-400 uppercase tracking-wider">OR</span>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
-
-        {/* Google button (prominent) */}
-        <button type="button" onClick={() => handleSocialLogin('Google')}
-          className="w-full flex items-center justify-center gap-3 py-2.5 rounded-lg border border-blue-500 text-blue-600 text-sm font-medium transition-all hover:bg-blue-50 bg-white mb-3">
-          <SiGoogle size={16} style={{ color: '#DB4437' }} />
-          Sign up with Google
-        </button>
-
-        {/* Facebook & Twitter row */}
-        <div className="grid grid-cols-2 gap-3">
-          <button type="button" onClick={() => handleSocialLogin('Facebook')}
-            className="flex items-center justify-center gap-2 py-2.5 rounded-lg border border-gray-200 text-gray-700 text-sm font-medium transition-all hover:bg-gray-50 bg-white">
-            <SiFacebook size={15} style={{ color: '#1877F2' }} />
-            Facebook
-          </button>
-          <button type="button" onClick={() => handleSocialLogin('Twitter')}
-            className="flex items-center justify-center gap-2 py-2.5 rounded-lg border border-gray-200 text-gray-700 text-sm font-medium transition-all hover:bg-gray-50 bg-white">
-            <SiX size={15} style={{ color: '#000000' }} />
-            Twitter
-          </button>
-        </div>
-
-        <p className="text-center text-sm mt-6 text-gray-600">
-          Already have an account?{' '}
-          <button type="button" onClick={onGoToLogin} className="text-blue-600 font-semibold hover:underline">
-            Login
-          </button>
-        </p>
-      </div>
-
-      {/* Bottom nav */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around items-center py-2 text-xs text-gray-400">
-        {[
-          { label: 'Workouts', icon: '🏋️' },
-          { label: 'Programs', icon: '📋' },
-          { label: 'Statistics', icon: '📊' },
-          { label: 'Tools', icon: '🔧' },
-          { label: 'Leaderboard', icon: '🏆' },
-          { label: 'Premium', icon: '⭐' },
-        ].map(item => (
-          <div key={item.label} className="flex flex-col items-center gap-0.5 px-2">
-            <span className="text-base">{item.icon}</span>
-            <span>{item.label}</span>
-          </div>
-        ))}
-      </div>
+              {isPremium && (
+                <span
+                  className="absolute top-1 right-3 w-1.5 h-1.5 rounded-full"
+                  style={{ background: '#F59E0B' }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </nav>
 
       {/* Verification Modal */}
       {showVerify && (
@@ -341,12 +394,16 @@ const SignupPage: React.FC<Props> = ({ onSignupSuccess, onGoToLogin }) => {
                 <h3 className="text-xl font-bold text-gray-900 mb-1">Verify Your Email</h3>
                 <p className="text-sm text-gray-500">Enter the 6-digit code shown below</p>
               </div>
-              <button type="button" onClick={() => setShowVerify(false)} className="text-gray-400 hover:text-gray-600" aria-label="Close">
+              <button
+                type="button"
+                onClick={() => setShowVerify(false)}
+                className="text-gray-400 hover:text-gray-600"
+                aria-label="Close"
+              >
                 <X size={20} />
               </button>
             </div>
 
-            {/* Code display */}
             <div className="rounded-xl p-6 mb-6 text-center bg-blue-50 border border-blue-100">
               <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Your verification code (simulated email)</p>
               <p className="font-mono text-3xl font-bold tracking-[0.3em] text-blue-600">{generatedCode}</p>
@@ -367,9 +424,13 @@ const SignupPage: React.FC<Props> = ({ onSignupSuccess, onGoToLogin }) => {
               {verifyError && <p className="text-xs mt-1 text-red-500">{verifyError}</p>}
             </div>
 
-            <button type="button" onClick={handleVerify} disabled={verifyLoading}
+            <button
+              type="button"
+              onClick={handleVerify}
+              disabled={verifyLoading}
               className="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-all"
-              style={{ background: verifyLoading ? '#60a5fa' : '#3b82f6', opacity: verifyLoading ? 0.8 : 1 }}>
+              style={{ background: verifyLoading ? '#60a5fa' : '#3b82f6', opacity: verifyLoading ? 0.85 : 1 }}
+            >
               {verifyLoading ? 'Verifying...' : 'Verify Email'}
             </button>
           </div>

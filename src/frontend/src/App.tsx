@@ -31,27 +31,21 @@ interface UserSession {
   hasCompletedOnboarding: boolean;
 }
 
-const THEME_KEY = 'ironclad_theme';
 const SESSION_KEY = 'ironclad_session';
 
 const App: React.FC = () => {
   const [view, setView] = useState<AppState>('login');
   const [user, setUser] = useState<UserSession | null>(null);
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    return (localStorage.getItem(THEME_KEY) as 'dark' | 'light') || 'light';
-  });
+  // Theme is ALWAYS light — dark mode is disabled
+  const theme = 'light' as const;
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-  // Apply theme to html element
+  // Always force light theme — remove any saved dark preference
   useEffect(() => {
     const html = document.documentElement;
-    if (theme === 'dark') {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
-    }
-    localStorage.setItem(THEME_KEY, theme);
-  }, [theme]);
+    html.classList.remove('dark');
+    localStorage.removeItem('volt_theme');
+  }, []);
 
   // Restore session on load
   const restoreSession = useCallback(async () => {
@@ -108,7 +102,8 @@ const App: React.FC = () => {
 
   const navigate = (v: AuthView) => setView(v);
 
-  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
+  // No-op — dark mode is permanently disabled
+  const toggleTheme = () => { /* light theme is always active */ };
 
   // Unauthenticated views
   const isUnauth = view === 'login' || view === 'signup' || view === 'forgot-password' || view === 'onboarding';

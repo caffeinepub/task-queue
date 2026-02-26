@@ -104,8 +104,8 @@ const OnboardingPage: React.FC<Props> = ({ onComplete }) => {
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <img src="/assets/uploads/Brand-1.png" alt="IRONCLAD brand logo" className="w-12 h-auto mx-auto mb-3" />
-          <h1 className="font-display text-3xl tracking-widest mb-1" style={{ color: '#22C55E' }}>IRONCLAD</h1>
+          <img src="/assets/generated/volt-logo.dim_200x200.png" alt="VOLT logo" className="w-12 h-12 mx-auto mb-3 rounded-md object-contain" />
+          <h1 className="font-display text-3xl tracking-widest mb-1" style={{ color: '#111827' }}>VOLT</h1>
           <p className="text-sm font-heading" style={{ color: 'var(--ic-text-secondary)' }}>Let's set up your profile</p>
         </div>
 
